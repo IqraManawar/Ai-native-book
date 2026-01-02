@@ -1,47 +1,72 @@
 ---
-sidebar_position: 1
+sidebar_position: 0
+title: Welcome
+description: Physical AI & Humanoid Robotics Essentials - An AI-Native Textbook
 ---
 
-# Tutorial Intro
+# Physical AI & Humanoid Robotics Essentials
 
-Let's discover **Docusaurus in less than 5 minutes**.
+Welcome to the **Physical AI & Humanoid Robotics Essentials** textbook - your comprehensive guide to building intelligent robots that operate in the physical world.
 
-## Getting Started
+## About This Textbook
 
-Get started by **creating a new site**.
+This AI-native textbook covers the fundamental concepts of Physical AI and Humanoid Robotics, from basic principles to hands-on implementation. Each chapter builds on the previous, taking you from theory to practice.
 
-Or **try Docusaurus immediately** with **[docusaurus.new](https://docusaurus.new)**.
+### What Makes This Book Different?
 
-### What you'll need
+- **AI-Powered Learning**: Use the integrated chatbot to ask questions about any topic
+- **Concise & Focused**: Essential concepts without unnecessary complexity
+- **Practical Examples**: Real code and simulation examples throughout
+- **Modern Stack**: ROS 2, Gazebo, Isaac Sim, and state-of-the-art AI
 
-- [Node.js](https://nodejs.org/en/download/) version 20.0 or above:
-  - When installing Node.js, you are recommended to check all checkboxes related to dependencies.
+## Chapters
 
-## Generate a new site
+| Chapter | Title | Description |
+|---------|-------|-------------|
+| 1 | [Introduction to Physical AI](./chapter-1-physical-ai/) | Foundations of AI in physical systems |
+| 2 | [Basics of Humanoid Robotics](./chapter-2-humanoid-robotics/) | Robot anatomy, kinematics, and control |
+| 3 | [ROS 2 Fundamentals](./chapter-3-ros2/) | Robot Operating System architecture |
+| 4 | [Digital Twin Simulation](./chapter-4-digital-twin/) | Gazebo and Isaac Sim environments |
+| 5 | [Vision-Language-Action Systems](./chapter-5-vla-systems/) | Multimodal AI for robotics |
+| 6 | [Capstone Project](./chapter-6-capstone/) | Build an AI-robot pipeline |
 
-Generate a new Docusaurus site using the **classic template**.
+## How to Use This Book
 
-The classic template will automatically be added to your project after you run the command:
+### Reading Path
 
-```bash
-npm init docusaurus@latest my-website classic
+For beginners, we recommend reading chapters in order:
+
+```
+Chapter 1 → Chapter 2 → Chapter 3 → Chapter 4 → Chapter 5 → Chapter 6
 ```
 
-You can type this command into Command Prompt, Powershell, Terminal, or any other integrated terminal of your code editor.
+### Using the AI Chatbot
 
-The command also installs all necessary dependencies you need to run Docusaurus.
+Click the chat button in the bottom-right corner to:
+- Ask questions about any topic in the book
+- Get explanations of concepts you don't understand
+- Find related sections across chapters
 
-## Start your site
+The chatbot only answers from the book content, ensuring accurate and relevant responses.
 
-Run the development server:
+### Search
 
-```bash
-cd my-website
-npm run start
-```
+Use the search bar to find specific topics, terms, or code examples across all chapters.
 
-The `cd` command changes the directory you're working with. In order to work with your newly created Docusaurus site, you'll need to navigate the terminal there.
+## Prerequisites
 
-The `npm run start` command builds your website locally and serves it through a development server, ready for you to view at http://localhost:3000/.
+To get the most from this textbook, you should have:
 
-Open `docs/intro.md` (this page) and edit some lines: the site **reloads automatically** and displays your changes.
+- **Programming**: Basic Python knowledge
+- **Math**: Linear algebra and calculus fundamentals
+- **Linux**: Familiarity with command line
+
+No prior robotics experience is required!
+
+## Get Started
+
+Ready to begin? Start with [Chapter 1: Introduction to Physical AI](./chapter-1-physical-ai/).
+
+---
+
+*Have questions? Use the AI chatbot or search to find answers!*

@@ -1,0 +1,69 @@
+/* Citation component styles */
+
+.citation {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  background: var(--ifm-color-emphasis-100);
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 6px;
+  color: var(--ifm-color-primary);
+  text-decoration: none;
+  font-size: 12px;
+  line-height: 1.3;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.citation:hover {
+  background: var(--ifm-color-emphasis-200);
+  border-color: var(--ifm-color-primary-light);
+  text-decoration: none;
+}
+
+.index {
+  font-weight: 600;
+  color: var(--ifm-color-primary-dark);
+}
+
+.chapter {
+  font-weight: 500;
+}
+
+.section {
+  color: var(--ifm-color-emphasis-600);
+  font-size: 11px;
+}
+
+/* Citation list */
+.citationList {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ifm-color-emphasis-600);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.citations {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* Dark mode */
+[data-theme='dark'] .citation {
+  background: var(--ifm-color-emphasis-200);
+  border-color: var(--ifm-color-emphasis-300);
+}
+
+[data-theme='dark'] .citation:hover {
+  background: var(--ifm-color-emphasis-300);
+}

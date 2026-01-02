@@ -28,3 +28,260 @@
   --ifm-color-primary-lightest: #4fddbf;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
+
+/* ==========================================
+   Search Highlighting Styles
+   ========================================== */
+
+/* Highlighted search terms on target page */
+.search-result-match {
+  background-color: rgba(255, 213, 0, 0.4);
+  padding: 2px 0;
+  border-radius: 2px;
+}
+
+[data-theme='dark'] .search-result-match {
+  background-color: rgba(255, 213, 0, 0.3);
+}
+
+/* Search bar customization */
+.navbar__search {
+  position: relative;
+}
+
+.navbar__search-input {
+  transition: width 0.3s ease, background-color 0.2s ease;
+}
+
+.navbar__search-input:focus {
+  width: 240px;
+  background-color: var(--ifm-background-surface-color);
+}
+
+/* Search results dropdown styling */
+.search-result-item {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+  transition: background-color 0.15s ease;
+}
+
+.search-result-item:hover {
+  background-color: var(--ifm-color-emphasis-100);
+}
+
+.search-result-item:last-child {
+  border-bottom: none;
+}
+
+/* Search result title */
+.search-result-item h2 {
+  margin: 0 0 4px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ifm-color-primary);
+}
+
+/* Search result snippet/context */
+.search-result-item p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--ifm-color-emphasis-700);
+  line-height: 1.4;
+}
+
+/* Highlight matched text in search results */
+.search-result-item mark,
+.DocSearch-Hit mark {
+  background-color: rgba(255, 213, 0, 0.5);
+  color: inherit;
+  padding: 1px 2px;
+  border-radius: 2px;
+}
+
+[data-theme='dark'] .search-result-item mark,
+[data-theme='dark'] .DocSearch-Hit mark {
+  background-color: rgba(255, 213, 0, 0.35);
+}
+
+/* No results message */
+.search-no-results {
+  padding: 20px;
+  text-align: center;
+  color: var(--ifm-color-emphasis-600);
+  font-size: 14px;
+}
+
+/* Loading state */
+.search-loading {
+  padding: 20px;
+  text-align: center;
+}
+
+/* Search keyboard shortcut hint */
+.search-hint {
+  font-size: 11px;
+  color: var(--ifm-color-emphasis-500);
+  margin-left: 8px;
+}
+
+/* Mobile search adjustments */
+@media (max-width: 996px) {
+  .navbar__search-input:focus {
+    width: 180px;
+  }
+}
+
+@media (max-width: 576px) {
+  .navbar__search-input:focus {
+    width: 100%;
+  }
+}
+
+/* ==========================================
+   RTL (Right-to-Left) Support for Urdu
+   ========================================== */
+
+/* Base RTL styles */
+[dir='rtl'] {
+  text-align: right;
+}
+
+/* Main content RTL */
+[dir='rtl'] .theme-doc-markdown,
+[dir='rtl'] .markdown {
+  direction: rtl;
+  text-align: right;
+}
+
+/* Sidebar RTL adjustments */
+[dir='rtl'] .theme-doc-sidebar-container {
+  border-left: 1px solid var(--ifm-toc-border-color);
+  border-right: none;
+}
+
+[dir='rtl'] .menu__link {
+  padding-right: var(--ifm-menu-link-padding-horizontal);
+  padding-left: calc(var(--ifm-menu-link-padding-horizontal) + 1rem);
+}
+
+[dir='rtl'] .menu__list .menu__list {
+  padding-right: var(--ifm-menu-link-padding-horizontal);
+  padding-left: 0;
+}
+
+/* Tables RTL */
+[dir='rtl'] table {
+  direction: rtl;
+}
+
+[dir='rtl'] th,
+[dir='rtl'] td {
+  text-align: right;
+}
+
+/* Code blocks remain LTR */
+[dir='rtl'] pre,
+[dir='rtl'] code {
+  direction: ltr;
+  text-align: left;
+}
+
+/* Lists RTL */
+[dir='rtl'] ul,
+[dir='rtl'] ol {
+  padding-right: 2rem;
+  padding-left: 0;
+}
+
+[dir='rtl'] li::marker {
+  unicode-bidi: isolate;
+}
+
+/* Navbar RTL */
+[dir='rtl'] .navbar__items {
+  flex-direction: row-reverse;
+}
+
+[dir='rtl'] .navbar__brand {
+  margin-left: 1rem;
+  margin-right: 0;
+}
+
+/* Breadcrumbs RTL */
+[dir='rtl'] .breadcrumbs__item:not(:last-child)::after {
+  content: '\\';
+  margin: 0 0.5rem;
+}
+
+/* Pagination RTL */
+[dir='rtl'] .pagination-nav {
+  flex-direction: row-reverse;
+}
+
+[dir='rtl'] .pagination-nav__link--prev .pagination-nav__sublabel::before {
+  content: '→ ';
+}
+
+[dir='rtl'] .pagination-nav__link--next .pagination-nav__sublabel::after {
+  content: ' ←';
+}
+
+/* TOC RTL */
+[dir='rtl'] .table-of-contents {
+  padding-right: 0;
+  padding-left: 1rem;
+  border-left: 1px solid var(--ifm-toc-border-color);
+  border-right: none;
+}
+
+/* Footer RTL */
+[dir='rtl'] .footer__links {
+  flex-direction: row-reverse;
+}
+
+/* Alerts/Admonitions RTL */
+[dir='rtl'] .alert {
+  border-left: none;
+  border-right: 5px solid var(--ifm-alert-border-color);
+}
+
+[dir='rtl'] .admonition-icon {
+  margin-left: 0.5rem;
+  margin-right: 0;
+}
+
+/* ChatWidget RTL adjustments */
+[dir='rtl'] .chatWidget {
+  left: 20px;
+  right: auto;
+}
+
+[dir='rtl'] .chatPanel {
+  left: 20px;
+  right: auto;
+}
+
+/* Urdu specific font */
+[lang='ur'] {
+  font-family: 'Noto Nastaliq Urdu', 'Jameel Noori Nastaleeq', 'Nafees Nastaleeq', serif;
+  line-height: 2;
+}
+
+/* Improve Urdu readability */
+[lang='ur'] h1,
+[lang='ur'] h2,
+[lang='ur'] h3,
+[lang='ur'] h4,
+[lang='ur'] h5,
+[lang='ur'] h6 {
+  line-height: 1.8;
+}
+
+[lang='ur'] p {
+  line-height: 2.2;
+}
+
+/* Language dropdown styling */
+.navbar__item.dropdown.dropdown--hoverable.dropdown--right {
+  margin-left: 0.5rem;
+}

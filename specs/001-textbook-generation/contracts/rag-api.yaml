@@ -1,0 +1,285 @@
+openapi: 3.0.3
+info:
+  title: RAG Chatbot API
+  description: API for the AI-Native Textbook RAG chatbot
+  version: 1.0.0
+  contact:
+    name: Physical AI Textbook Team
+
+servers:
+  - url: https://api.example.com/v1
+    description: Production (Railway/Render)
+  - url: http://localhost:8000/v1
+    description: Local development
+
+paths:
+  /health:
+    get:
+      summary: Health check
+      operationId: healthCheck
+      responses:
+        '200':
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+
+  /query:
+    post:
+      summary: Ask a question about textbook content
+      operationId: askQuestion
+      description: |
+        Submit a question to the RAG chatbot. The system will:
+        1. Embed the question using sentence-transformers
+        2. Search Qdrant for relevant sections
+        3. Generate an answer using Gemini with retrieved context
+        4. Return answer with source citations
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueryRequest'
+      responses:
+        '200':
+          description: Successful response with answer and citations
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResponse'
+        '400':
+          description: Invalid request (empty question, etc.)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service unavailable (Qdrant/Gemini down)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /sections:
+    get:
+      summary: List all indexed sections
+      operationId: listSections
+      description: Returns all sections available for citation
+      parameters:
+        - name: chapter_id
+          in: query
+          schema:
+            type: string
+          description: Filter by chapter ID
+      responses:
+        '200':
+          description: List of sections
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SectionsResponse'
+
+  /index:
+    post:
+      summary: Trigger content re-indexing
+      operationId: reindexContent
+      description: |
+        Admin endpoint to re-index textbook content.
+        Should be called after content updates.
+      security:
+        - ApiKeyAuth: []
+      responses:
+        '202':
+          description: Indexing started
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IndexResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  schemas:
+    QueryRequest:
+      type: object
+      required:
+        - question
+      properties:
+        question:
+          type: string
+          minLength: 3
+          maxLength: 1000
+          description: The user's question about textbook content
+          example: "What is Physical AI?"
+        selected_context:
+          type: string
+          maxLength: 2000
+          description: Optional text selected by user before asking
+          example: "Physical AI combines machine learning with robotics..."
+        language:
+          type: string
+          enum: [en, ur]
+          default: en
+          description: Response language preference
+
+    QueryResponse:
+      type: object
+      required:
+        - answer
+        - citations
+        - has_answer
+      properties:
+        answer:
+          type: string
+          description: Generated answer from RAG pipeline
+          example: "Physical AI refers to the integration of artificial intelligence..."
+        citations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Citation'
+          description: Source sections used to generate the answer
+        has_answer:
+          type: boolean
+          description: Whether the system found relevant content
+        confidence:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 1
+          description: Retrieval confidence score
+        response_time_ms:
+          type: integer
+          description: Processing time in milliseconds
+
+    Citation:
+      type: object
+      required:
+        - section_id
+        - section_title
+        - chapter_title
+        - url
+      properties:
+        section_id:
+          type: string
+          description: Unique section identifier
+          example: "chapter-1#what-is-physical-ai"
+        section_title:
+          type: string
+          description: Section heading
+          example: "What is Physical AI?"
+        chapter_title:
+          type: string
+          description: Parent chapter title
+          example: "Introduction to Physical AI"
+        url:
+          type: string
+          format: uri
+          description: Direct link to section in textbook
+          example: "/docs/chapter-1/intro#what-is-physical-ai"
+        snippet:
+          type: string
+          maxLength: 300
+          description: Relevant excerpt from section
+        relevance_score:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 1
+          description: Semantic similarity score
+
+    SectionsResponse:
+      type: object
+      required:
+        - sections
+        - total
+      properties:
+        sections:
+          type: array
+          items:
+            $ref: '#/components/schemas/SectionSummary'
+        total:
+          type: integer
+          description: Total number of sections
+
+    SectionSummary:
+      type: object
+      required:
+        - id
+        - title
+        - chapter_id
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        chapter_id:
+          type: string
+        chapter_title:
+          type: string
+        url:
+          type: string
+          format: uri
+
+    IndexResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [started, completed, failed]
+        sections_indexed:
+          type: integer
+        embeddings_created:
+          type: integer
+        duration_ms:
+          type: integer
+
+    HealthResponse:
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          type: string
+          enum: [healthy, degraded, unhealthy]
+        qdrant_connected:
+          type: boolean
+        gemini_available:
+          type: boolean
+        version:
+          type: string
+
+    ErrorResponse:
+      type: object
+      required:
+        - error
+        - message
+      properties:
+        error:
+          type: string
+          description: Error code
+          example: "RATE_LIMIT_EXCEEDED"
+        message:
+          type: string
+          description: Human-readable error message
+          example: "Too many requests. Please wait before trying again."
+        retry_after:
+          type: integer
+          description: Seconds to wait before retrying (for rate limits)
+
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: Admin API key for indexing operations
